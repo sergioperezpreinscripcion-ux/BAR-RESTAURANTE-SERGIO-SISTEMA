@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SergioSpark Admin ChefBar</title>
+
+    <style>
+    body { font-family: Arial; background: #f4f4f4; margin: 20px; }
+    h1 { text-align: center; color: #ffd500; }
+    .box { background: white; padding: 15px; margin: 10px 0; border-radius: 10px; }
+    label { font-weight: bold; }
+    button { padding: 10px; background: #ffd500; color: white; border: none; cursor: pointer; }
+    .resultado { font-size: 18px; color: green; }
+    </style>
+
+</head>
+
+<body>
+
+
+
+
+
+<h1>🍽️ SergioSpark Admin ChefBar 👳🏽‍♂️</h1>
+
+<div class="box">
+    <h2>Datos de la persona:</h2>
+    Nombre: <input type="text" id="nombre"><br><br>
+    Edad: <input type="number" id="edad"><br><br>
+    Cantidad de personas: <input type="number" id="personas" value="1">
+</div>
+
+
+
+
+
+<div class="box">
+    <h2>Seleccionar Mesa:</h2>
+    <select id="mesa">
+        <option>Mesa 1</option>
+        <option>Mesa 2</option>
+        <option>Mesa 3</option>
+        <option>Mesa 4</option>
+        <option>Mesa 5</option>
+        <option>Mesa 6</option>
+        <option>Mesa 7</option>
+        <option>Mesa 8</option>
+        <option>Mesa 9</option>
+        <option>Mesa 11</option>
+        <option>Mesa 12</option>
+        <option>Mesa 13</option>
+        <option>Mesa VIP 1</option>
+        <option>Mesa VIP 2</option>
+        <option>Mesa VIP 3</option>
+        <option>Mesa VIP 4</option>
+        <option>Mesa VIP 5</option>
+    </select>
+</div>
+
+
+
+
+
+<div class="box">
+    <h2>Firma:</h2>
+<canvas id="firma" width="400" height="200" style="border:1px solid black;"></canvas>
+<br>
+<button onclick="limpiar()">Limpiar</button>
+
+</div>
+<script>
+    let canvas = document.getElementById("firma");
+    let ctx = canvas.getContext("2d");
+
+    let dibujando = false;
+</script>
+
+
+
+
+
+<div class="box">
+    <h2>Menú:</h2>
+
+    <h3>Entradas:</h3>
+    <input type="checkbox" value="5"> Papa rellena ($5)<br>
+    <input type="checkbox" value="7"> Leche de tigre ($7)<br>
+    <input type="checkbox" value="5"> Ensalada rusa ($10)<br>
+    <input type="checkbox" value="6"> Caldo de gallina ($10)<br>
+    <input type="checkbox" value="6"> Causa rellena de (atun pollo pescado marisco) (6$)<br>
+
+    <h3>Fondos:</h3>
+    <input type="checkbox" value="25"> Pollo a la brasa con papas brabas al horno ($25)<br>
+    <input type="checkbox" value="30"> Carne a la parrilla con arroz chaufa de (pollo,pescado,marisco) ($30)<br>
+    <input type="checkbox" value="25"> Locro con arroz chino ($25)<br>
+    <input type="checkbox" value="20"> lomo saltado ($20)<br>
+    <input type="checkbox" value="25"> Locro con arroz chino ($25)<br>
+    <input type="checkbox" value="20"> lomo saltado ($20)<br>
+
+
+    <h3>Postres:</h3>
+    <input type="checkbox" value="9"> Helado de tres bolas (vainilla,chocolate,fresa,maraculla) ($9)<br>
+    <input type="checkbox" value="5"> flan ($5)<br>
+    <input type="checkbox" value="6"> 2 alfajor ($6)<br>
+    <input type="checkbox" value="5"> tiramisu ($5)<br>
+    <input type="checkbox" value="3"> picarones ($3)<br>
+
+    <h3>Jugos:</h3>
+    <input type="checkbox" value="3"> Jugo de naranja ($3)<br>
+    <input type="checkbox" value="3.50"> Jugo de piña ($3.50)<br>
+    <input type="checkbox" value="5"> inka cola ($5)<br>
+    <input type="checkbox" value="2.50"> Nesti ($2.50)<br>
+    <input type="checkbox" value="2.50"> agua ($2.50)<br>
+    <input type="checkbox" value="3"> limonada ($3)<br>
+    <input type="checkbox" value="3"> Maraculla ($3)<br>
+
+    <h3>Jugos para adulto:</h3>
+    <input type="checkbox" value="15"> Vino (Rioja,Cava,Ribera del Duero) ($15)<br>
+    <input type="checkbox" value="9.50"> Vodca ($9.50)<br>
+    <input type="checkbox" value="12"> Cerveza (cusqueña,Estrella Galicia,Mahou) ($12)<br>
+    <input type="checkbox" value="9.50"> Tinto de verano ($9.50)<br>
+    <input type="checkbox" value="3.50"> Sangria ($3.50)<br>
+    <input type="checkbox" value="5.80"> Licor 43 ($5.80)<br>
+</div>
+
+
+
+
+<div class="box">
+    <h2>🎉 Descuentos:</h2>
+    <p>Con traer a tu niño ✔ 5% de descuento en Postres</p>
+    <p>Seguirnos en redes sociales ✔ 5% de descuento en jugos</p>
+    <p>Ponernos 5 estrellas ✔ 5% de descuento en entrada </p>
+    <p>✔ 7% de descuento platos de fondo si son más de 5 personas</p>
+</div>
+
+
+
+
+
+<div class="box">
+    <h2> Nota de Gastos:</h2>
+    <textarea id="nota" rows="4" cols="50" placeholder="Escribe algo..."></textarea>
+</div>
+
+
+
+
+
+    <div class="box">
+    <h2>Calculadora:</h2>
+        <div class="calc">
+            <input type="text" id="pantalla" readonly>
+
+            <br>
+            <button onclick="agregar('7')">7</button>
+            <button onclick="agregar('8')">8</button>
+            <button onclick="agregar('9')">9</button>
+            <button onclick="agregar('/')">÷</button>
+
+            <br>
+            <button onclick="agregar('4')">4</button>
+            <button onclick="agregar('5')">5</button>
+            <button onclick="agregar('6')">6</button>
+            <button onclick="agregar('*')">×</button>
+
+            <br>
+            <button onclick="agregar('1')">1</button>
+            <button onclick="agregar('2')">2</button>
+            <button onclick="agregar('3')">3</button>
+            <button onclick="agregar('-')">-</button>
+
+            <br>
+            <button onclick="agregar('0')">0</button>
+            <button onclick="agregar('.')">.</button>
+            <button onclick="porcentaje()">%</button>
+            <button onclick="agregar('+')">+</button>
+
+            <br>
+            <button onclick="calcular()">=</button>
+            <button onclick="limpiar()">C</button>
+        </div>
+        <script>
+            let pantalla = document.getElementById("pantalla");
+
+            function agregar(valor){
+                pantalla.value += valor;
+            }
+
+            function limpiar(){
+                pantalla.value = "";
+            }
+
+            function calcular(){
+                try{
+                    pantalla.value = eval(pantalla.value);
+                }catch{
+                    pantalla.value = "Error";
+                }
+            }
+
+            function porcentaje(){
+                pantalla.value = pantalla.value / 100;
+            }
+        </script>
+    </div>
+
+
+
+
+
+<div class="box">
+    <h2>Opinión:</h2>
+    Estrellas:
+    <select id="estrellas">
+        <option>1 ⭐</option>
+        <option>2 ⭐⭐</option>
+        <option>3 ⭐⭐⭐</option>
+        <option>4 ⭐⭐⭐⭐</option>
+        <option>5 ⭐⭐⭐⭐⭐</option>
+    </select><br><br>
+
+
+
+
+    Tu Estadia:
+    <select id="carita">
+        <option>🙁 Mal</option>
+        <option>😐 Normal</option>
+        <option>🙃 Medio</option>
+        <option>😏 Interesante</option>
+        <option>😃 Exelente</option>
+    </select>
+</div>
+
+
+
+
+<div class="box">
+    <h2>Opiniones de su Estancia:</h2>
+    <textarea id="nota" rows="4" cols="50" placeholder="Escribe algo..."></textarea>
+</div>
+
+
+
+
+<div class="box">
+    <button onclick="irGracias()">Finalizar</button>
+    <script>
+        function irGracias(){
+            window.location.href = "https://theartneon.com/cdn/shop/files/Thank_You_Come_Again_LED_Neon_Sign_c386cfd4-840a-4b38-a230-660b8595b4ca.jpg?v=1734283334";
+        }
+    </script>
+
+</div>
+
+</body>
+</html>
