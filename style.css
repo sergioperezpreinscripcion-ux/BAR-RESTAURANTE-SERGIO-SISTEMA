@@ -1,0 +1,29 @@
+body { 
+            font-family: Arial, sans-serif; 
+            background: #000000 url('https://img.freepik.com/fotos-premium/fondo-acuarela-naranja-amarillo-fondo-blanco_664601-2956.jpg') no-repeat center center fixed; 
+            background-size: cover;
+            margin: 20px; 
+        }
+        h1 { text-align: center; color: #ffd500; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); }
+        .box { background: rgb(255, 255, 255); padding: 15px; margin: 15px 0; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        label { font-weight: bold; display: inline-block; margin-bottom: 5px; }
+        button { padding: 10px 15px; background: #ffd500; color: #000; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; }
+        button:hover { background: #e6be00; }
+        .resultado { font-size: 18px; color: green; }
+        .animacion { animation: parpadeo 1s infinite; }
+        @keyframes parpadeo {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .menu-item { margin-bottom: 15px; overflow: hidden; }
+        .menu-item img { width: 100px; height: auto; float: right; border-radius: 5px; }
+        .menu-item p { margin: 5px 0; font-size: 14px; color: #555; }
+
+
+
+
+
+        body { font-family: Arial, sans-serif; background: #2c3e50; color: white; padding: 40px; text-align: center; }
+        .container { background: #34495e; padding: 30px; border-radius: 10px; display: inline-block; }
+        h1 { color: #e74c3c; }
