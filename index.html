@@ -1,347 +1,397 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
     <meta charset="UTF-8">
-    <title>SergioSpark Admin ChefBar</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SergioSpark Admin ChefBar - Sistema de Gestión de Pedidos</title>
+    
+    <meta name="description" content="Sistema inteligente de administración, comandas y menú digital para SergioSpark Admin ChefBar. Gestiona mesas, calcula totales y registra la satisfacción del cliente.">
+    <meta name="keywords" content="SergioSpark, ChefBar, comandas, menú digital, restaurante, gastronomía peruana">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="SergioSpark">
+    
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" type="image/png">
 
     <style>
-    body { font-family: Arial; background: #000000; margin: 20px; }
-    h1 { text-align: center; color: #ffd500; }
-    .box { background: rgb(255, 255, 255); padding: 15px; margin: 10px 0; border-radius: 10px; }
-    label { font-weight: bold; }
-    button { padding: 10px; background: #ffd500; color: rgb(255, 255, 255); border: none; cursor: pointer; }
-    .resultado { font-size: 18px; color: green; }
-    .animacion { animation: parpadeo 1s infinite; }
-    @keyframes parpadeo {
-        0% { opacity: 10; }
-        50% { opacity: 0.5; }
-        100% { opacity: 10; }
-    }
-
-
-    body {
-        background-image: url('https://img.freepik.com/fotos-premium/fondo-acuarela-naranja-amarillo-fondo-blanco_664601-2956.jpg'); 
-        background-size: cover;
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #000000 url('https://img.freepik.com/fotos-premium/fondo-acuarela-naranja-amarillo-fondo-blanco_664601-2956.jpg') no-repeat center center fixed; 
+            background-size: cover;
+            margin: 20px; 
         }
+        h1 { text-align: center; color: #ffd500; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); }
+        .box { background: rgb(255, 255, 255); padding: 15px; margin: 15px 0; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        label { font-weight: bold; display: inline-block; margin-bottom: 5px; }
+        button { padding: 10px 15px; background: #ffd500; color: #000; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; }
+        button:hover { background: #e6be00; }
+        .resultado { font-size: 18px; color: green; }
+        .animacion { animation: parpadeo 1s infinite; }
+        @keyframes parpadeo {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .menu-item { margin-bottom: 15px; overflow: hidden; }
+        .menu-item img { width: 100px; height: auto; float: right; border-radius: 5px; }
+        .menu-item p { margin: 5px 0; font-size: 14px; color: #555; }
     </style>
-
-
 </head>
 <body>
 
-
-<h1>🍽️ SergioSpark Admin ChefBar 👳🏽‍♂️</h1>
-
-<div class="box">
-    <h2>Datos de la persona:</h2>
-    Nombre: <input type="text" id="nombre"><br><br>
-    Edad: <input type="number" id="edad"><br><br>
-    Cantidad de personas: <input type="number" id="personas" value="1">
-</div>
-
-
-
-
-
-
-
-<div class="box">
-    <h2>Seleccionar Mesa:</h2>
-    <select id="mesa">
-        <option>Mesa 1</option>
-        <option>Mesa 2</option>
-        <option>Mesa 3</option>
-        <option>Mesa 4</option>
-        <option>Mesa 5</option>
-        <option>Mesa 6</option>
-        <option>Mesa 7</option>
-        <option>Mesa 8</option>
-        <option>Mesa 9</option>
-        <option>Mesa 11</option>
-        <option>Mesa 12</option>
-        <option>Mesa 13</option>
-        <option>Mesa VIP 1</option>
-        <option>Mesa VIP 2</option>
-        <option>Mesa VIP 3</option>
-        <option>Mesa VIP 4</option>
-        <option>Mesa VIP 5</option>
-    </select>
-</div>
-
-
-
-
-
-<div class="box">
-    <h2>Firma:</h2>
-<canvas id="firma" width="400" height="200" style="border:1px solid black;"></canvas>
-<br>
-<button onclick="limpiar()">Limpiar</button>
-
-</div>
-<script>
-    let canvas = document.getElementById("firma");
-    let ctx = canvas.getContext("2d");
-
-    let dibujando = false;
-</script>
-
-
-
-
-
-<div class="box">
-    <h2>Menú:</h2>
-
-    <h3>Entradas:</h3>
-    <input type="checkbox" value="5"> Papa rellena ($5)<br>
-    <img src="https://perudelights.com/wp-content/uploads/2013/09/Papa-rellena.-jpg-P1017113.jpg" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="7"> Leche de tigre ($7)<br>
-    <img src="https://images.mrcook.app/recipe-image/019746fb-3390-77e0-bbf7-04ba1e704731?cacheKey=RnJpLCAwNiBKdW4gMjAyNSAyMTowNjoxNiBHTVQ=" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="5"> Ensalada rusa ($10)<br>
-    <img src="https://imagenes2.eltiempo.com/files/image_600_455/files/fp/uploads/2026/05/11/6a01dff85a409.r_d.808-487-4676.png" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="6"> Caldo de gallina ($10)<br>
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvENC5jSbEm3_ArbsHaFXCl1o3v5_sffZN9Q&s" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="6"> Causa rellena de (atun pollo pescado marisco) (6$)<br>
-    <img src="https://acomer.pe/wp-content/uploads/2018/02/causalimeniaweb.jpg" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <h3>Fondos:</h3>
-    <input type="checkbox" value="25"> Pollo a la brasa con papas brabas al horno ($25)<br>
-    <img src="https://tofuu.getjusto.com/orioneat-local/resized2/uu7qw8zZxbvqb8Rq5-2400-x.webp" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="30"> Carne a la parrilla con arroz chaufa de (pollo,pescado,marisco) ($30)<br>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPza-uMudwSxPn_jCp1CLXLBxko2qTMRHTuQ&s" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="25"> Locro con arroz chino ($25)<br>
-<img src="https://alimentosanocuerposano.com/wp-content/uploads/2017/08/Locro-de-zapallo-sello-de-agua-500x459.jpg" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="20"> lomo saltado ($20)<br>
-<img src="https://www.giallozafferano.es/images/255-25509/lomo-saltado_1200x800.jpg" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <h3>Postres:</h3>
-    <input type="checkbox" value="9"> Helado de tres bolas (vainilla,chocolate,fresa,maraculla) ($9)<br>
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQb39Rwo4NiWwpmIpQ_RzDacaZCJ8PTWE2GwA&s" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-    
-    
-    <input type="checkbox" value="5"> flan ($5)<br>
-    <img src="https://dietamediterranea.com/wp-content/uploads/2017/04/20170424-Flan.jpg" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="6"> 3 alfajor grandes ($6)<br>
-    <img src="https://larosqueteria.es/wp-content/uploads/2025/08/20434-ALFAJOR-PLATO.jpg" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="5"> tiramisu ($5)<br>
-    <img src="https://www.giallozafferano.es/images/3-399/Tiramisu_1200x800.jpg" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="3"> picarones ($3)<br>
-    <img src="https://i.blogs.es/340e0b/picarones-peruanos/450_1000.jpg" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <h3>Jugos:</h3>
-    <input type="checkbox" value="3"> Jugo de naranja ($3)<br>
-    <img src="https://www.frutasmiguel.es/wp-content/uploads/2021/02/IMG_7627.jpg" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="3.50"> Jugo de piña ($3.50)<br>
-<img src="https://png.pngtree.com/thumb_back/fh260/background/20250227/pngtree-pineapple-juice-in-a-glass-with-white-and-pineapples-on-blur-image_17012371.jpg" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="5"> inka cola ($5)<br>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKWQ_i9CziMmTXEknCYtIhyGp9Cb9dXuEoeg&s" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="2.50"> Nesti ($2.50)<br>
-<img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/a4d73926447439.563555064c85b.jpg" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="2.50"> agua ($2.50)<br>
-<img src="https://geoinnova.org/wp-content/uploads/2021/08/agua-1-3.jpg" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="3"> limonada ($3)<br>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrYHxRJf8lcWi1070d5rM4M85NYjULv5Xa6A&s" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="3"> Maraculla ($3)<br>
-<img src="https://tofuu.getjusto.com/orioneat-local/resized2/jD6q82BE8umGoS276-2400-x.webp" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-
-    <h3>Jugos para adulto:</h3>
-    <input type="checkbox" value="15"> Vino (Rioja,Cava,Ribera del Duero) ($15)<br>
-    <img src="https://hips.hearstapps.com/hmg-prod/images/ab54f4ff-f970-45dd-8676-cda1725562d1.jpg?crop=0.692xw:1.00xh;0.308xw,0&resize=360:*" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-    
-    
-    <input type="checkbox" value="9.50"> Vodca ($9.50)<br>
-<img src="https://blogstudio.s3.theshoppad.net/staton/e34e3bedb8a714d734139ae3efa44348.png" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="12"> Cerveza (cusqueña,Estrella Galicia,Mahou) ($12)<br>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Helles_im_Glas-Helles_%28pale_beer%29.jpg/250px-Helles_im_Glas-Helles_%28pale_beer%29.jpg" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-    
-    
-    <input type="checkbox" value="9.50"> Tinto de verano ($9.50)<br>
-<img src="https://enrilemoine.com/wp-content/uploads/2023/08/tinto-de-verano-by-enrilemoine-1.jpg" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="3.50"> Sangria ($3.50)<br>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQar8NbraixlxMO3tJvFeGNwUIdKzbIwjR7lg&s" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-    <input type="checkbox" value="5.80"> Licor 43 ($5.80)<br>
-<img src="https://thecocktaillovers.com/wp-content/uploads/Screen-Shot-2015-10-04-at-18.08.02.png" alt="" style="width: 100px; height: auto; margin-left: 560px;"><br>
-
-
-</div>
-
-
-
-
-<div class="box">
-    <h2>🎉 Descuentos:</h2>
-    <p>Con traer a tu niño ✔ 5% de descuento en Postres</p>
-    <p>Seguirnos en redes sociales ✔ 5% de descuento en jugos</p>
-    <p>Ponernos 5 estrellas ✔ 5% de descuento en entrada </p>
-    <p>✔ 7% de descuento platos de fondo si son más de 5 personas</p>
-</div>
-
-
-
-
-
-<div class="box">
-    <h2> Nota de Gastos:</h2>
-    <textarea id="nota" rows="4" cols="50" placeholder="Escribe algo..."></textarea>
-</div>
-
-
-
-
-
-    <div class="box">
-    <h2>Calculadora:</h2>
-        <div class="calc">
-            <input type="text" id="pantalla" readonly>
-
-            <br>
-            <button onclick="agregar('7')">7</button>
-            <button onclick="agregar('8')">8</button>
-            <button onclick="agregar('9')">9</button>
-            <button onclick="agregar('/')">÷</button>
-
-            <br>
-            <button onclick="agregar('4')">4</button>
-            <button onclick="agregar('5')">5</button>
-            <button onclick="agregar('6')">6</button>
-            <button onclick="agregar('*')">×</button>
-
-            <br>
-            <button onclick="agregar('1')">1</button>
-            <button onclick="agregar('2')">2</button>
-            <button onclick="agregar('3')">3</button>
-            <button onclick="agregar('-')">-</button>
-
-            <br>
-            <button onclick="agregar('0')">0</button>
-            <button onclick="agregar('.')">.</button>
-            <button onclick="porcentaje()">%</button>
-            <button onclick="agregar('+')">+</button>
-
-            <br>
-            <button onclick="calcular()">=</button>
-            <button onclick="limpiar()">C</button>
+    <header>
+        <h1>🍽️ SergioSpark Admin ChefBar 👳🏽‍♂️</h1>
+    </header>
+
+    <main>
+        <section class="box">
+            <h2>Datos de la persona:</h2>
+            <label for="nombre">Nombre:</label> 
+            <input type="text" id="nombre"><br><br>
+            <label for="edad">Edad:</label> 
+            <input type="number" id="edad"><br><br>
+            <label for="personas">Cantidad de personas:</label> 
+            <input type="number" id="personas" value="1">
+        </section>
+
+        <section class="box">
+            <h2>Seleccionar Mesa:</h2>
+            <label for="mesa">Mesa asignada:</label>
+            <select id="mesa">
+                <option>Mesa 1</option>
+                <option>Mesa 2</option>
+                <option>Mesa 3</option>
+                <option>Mesa 4</option>
+                <option>Mesa 5</option>
+                <option>Mesa 6</option>
+                <option>Mesa 7</option>
+                <option>Mesa 8</option>
+                <option>Mesa 9</option>
+                <option>Mesa 11</option>
+                <option>Mesa 12</option>
+                <option>Mesa 13</option>
+                <option>Mesa VIP 1</option>
+                <option>Mesa VIP 2</option>
+                <option>Mesa VIP 3</option>
+                <option>Mesa VIP 4</option>
+                <option>Mesa VIP 5</option>
+            </select>
+        </section>
+
+        <section class="box">
+            <h2>Firma de Conformidad:</h2>
+            <canvas id="firma" width="400" height="200" style="border:1px solid black; background: #fff;"></canvas>
+            <br><br>
+            <button type="button" onclick="limpiarFirma()">Limpiar Firma</button>
+        </section>
+
+        <section class="box">
+            <h2>Menú Digital</h2>
+
+            <h3>Entradas</h3>
+            <div class="menu-item">
+                <img src="https://perudelights.com/wp-content/uploads/2013/09/Papa-rellena.-jpg-P1017113.jpg" alt="Papa rellena crujiente dorada acompañada de salsas">
+                <input type="checkbox" value="5"> <label>Papa rellena ($5)</label>
+                <p>Una deliciosa capa de papa crujiente rellena de carne molida sazonada, huevo, especias selectas y cremas únicas de la casa.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://images.mrcook.app/recipe-image/019746fb-3390-77e0-bbf7-04ba1e704731?cacheKey=RnJpLCAwNiBKdW4gMjAyNSAyMTowNjoxNiBHTVQ=" alt="Copa de Leche de tigre fresca con mariscos y limón">
+                <input type="checkbox" value="7"> <label>Leche de tigre ($7)</label>
+            <p>Una bebida refrescante hecha con el jugo de limón, mariscos frescos y especias peruanas.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://imagenes2.eltiempo.com/files/image_600_455/files/fp/uploads/2026/05/11/6a01dff85a409.r_d.808-487-4676.png" alt="Ensalada rusa tradicional con verduras en cubos y mayonesa">
+                <input type="checkbox" value="10"> <label>Ensalada rusa ($10)</label>
+                <p>Una ensalada tradicional con verduras en cubos y mayonesa.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvENC5jSbEm3_ArbsHaFXCl1o3v5_sffZN9Q&s" alt="Caldo de gallina concentrado con fideos y huevo duro">
+                <input type="checkbox" value="10"> <label>Caldo de gallina ($10)</label>
+                <p>Un caldo reconfortante hecho con gallina, fideos y huevo duro.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://acomer.pe/wp-content/uploads/2018/02/causalimeniaweb.jpg" alt="Causa rellena de pollo y palta decorada">
+                <input type="checkbox" value="6"> <label>Causa rellena (Atún/Pollo/Pescado/Marisco) ($6)</label>
+                <p>Una deliciosa causa rellena de pollo y palta decorada.</p>
+            </div>
+
+            <h3>Platos de Fondo</h3>
+            <div class="menu-item">
+                <img src="https://tofuu.getjusto.com/orioneat-local/resized2/uu7qw8zZxbvqb8Rq5-2400-x.webp" alt="Pollo a la brasa jugoso con papas bravas doradas al horno">
+                <input type="checkbox" value="25"> <label>Pollo a la brasa con papas bravas al horno ($25)</label>
+                <p>Un pollo a la brasa jugoso con papas bravas doradas al horno.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPza-uMudwSxPn_jCp1CLXLBxko2qTMRHTuQ&s" alt="Carne a la parrilla tierna con arroz chaufa al wok">
+                <input type="checkbox" value="30"> <label>Carne a la parrilla con arroz chaufa ($30)</label>
+                <p>Una carne a la parrilla tierna con arroz chaufa al wok.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://alimentosanocuerposano.com/wp-content/uploads/2017/08/Locro-de-zapallo-sello-de-agua-500x459.jpg" alt="Locro de zapallo cremoso servido con arroz estilo chino">
+                <input type="checkbox" value="25"> <label>Locro con arroz chino ($25)</label>
+                <p>Un locro cremoso servido con arroz estilo chino.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://www.giallozafferano.es/images/255-25509/lomo-saltado_1200x800.jpg" alt="Lomo saltado tradicional humeante con cebolla, tomate y papas fritas">
+                <input type="checkbox" value="20"> <label>Lomo saltado ($20)</label>
+                <p>Un lomo saltado tradicional humeante con cebolla, tomate y papas fritas.</p>
+            </div>
+
+            <h3>Postres</h3>
+            <div class="menu-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQb39Rwo4NiWwpmIpQ_RzDacaZCJ8PTWE2GwA&s" alt="Tres bolas de helado de diferentes sabores en copa">
+                <input type="checkbox" value="9"> <label>Helado de tres bolas ($9)</label>
+                <p>Un helado de tres bolas de diferentes sabores en copa.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://dietamediterranea.com/wp-content/uploads/2017/04/20170424-Flan.jpg" alt="Flan de caramelo suave y brillante">
+                <input type="checkbox" value="5"> <label>Flan ($5)</label>
+                <p>Un flan de caramelo suave y brillante.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://larosqueteria.es/wp-content/uploads/2025/08/20434-ALFAJOR-PLATO.jpg" alt="Tres alfajores grandes espolvoreados con azúcar glass">
+                <input type="checkbox" value="6"> <label>3 Alfajores grandes ($6)</label>
+                <p>Tres alfajores grandes espolvoreados con azúcar glass.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://www.giallozafferano.es/images/3-399/Tiramisu_1200x800.jpg" alt="Porción de tiramisú italiano espolvoreado con cacao">
+                <input type="checkbox" value="5"> <label>Tiramisú ($5)</label>
+                <p>Una porción de tiramisú italiano espolvoreado con cacao.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://i.blogs.es/340e0b/picarones-peruanos/450_1000.jpg" alt="Picarones peruanos crujientes bañados en miel de chancaca">
+                <input type="checkbox" value="3"> <label>Picarones ($3)</label>
+                <p>Picarones peruanos crujientes bañados en miel de chancaca.</p>
+            </div>
+
+            <h3>Bebidas y Jugos</h3>
+            <div class="menu-item">
+                <img src="https://www.frutasmiguel.es/wp-content/uploads/2021/02/IMG_7627.jpg" alt="Vaso de jugo de naranja natural recién exprimido">
+                <input type="checkbox" value="3"> <label>Jugo de naranja ($3)</label>
+                <p>Un jugo de naranja natural recién exprimido.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://png.pngtree.com/thumb_back/fh260/background/20250227/pngtree-pineapple-juice-in-a-glass-with-white-and-pineapples-on-blur-image_17012371.jpg" alt="Jugo de piña refrescante con piñas de fondo">
+                <input type="checkbox" value="3.50"> <label>Jugo de piña ($3.50)</label>
+                <p>Un jugo de piña refrescante con piñas de fondo.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKWQ_i9CziMmTXEknCYtIhyGp9Cb9dXuEoeg&s" alt="Botella de Inca Kola helada">
+                <input type="checkbox" value="5"> <label>Inca Kola ($5)</label>
+                <p>Una botella de Inca Kola helada.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/a4d73926447439.563555064c85b.jpg" alt="Lata o vaso de té frío Nestea">
+                <input type="checkbox" value="2.50"> <label>Nestea ($2.50)</label>
+                <p>Una lata o vaso de té frío Nestea.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://geoinnova.org/wp-content/uploads/2021/08/agua-1-3.jpg" alt="Botella de agua mineral pura">
+                <input type="checkbox" value="2.50"> <label>Agua ($2.50)</label>
+                <p>Una botella de agua mineral pura.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrYHxRJf8lcWi1070d5rM4M85NYjULv5Xa6A&s" alt="Vaso de limonada fresca con rodajas de limón">
+                <input type="checkbox" value="3"> <label>Limonada ($3)</label>
+                <p>Una limonada fresca con rodajas de limón.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://tofuu.getjusto.com/orioneat-local/resized2/jD6q82BE8umGoS276-2400-x.webp" alt="Jugo de maracuyá helado en jarra">
+                <input type="checkbox" value="3"> <label>Maracuyá ($3)</label>
+                <p>Un jugo de maracuyá helado en jarra.</p>
+            </div>
+
+            <h3>Bebidas para Adultos</h3>
+            <div class="menu-item">
+                <img src="https://hips.hearstapps.com/hmg-prod/images/ab54f4ff-f970-45dd-8676-cda1725562d1.jpg?crop=0.692xw:1.00xh;0.308xw,0&resize=360:*" alt="Copa de vino tinto elegante">
+                <input type="checkbox" value="15"> <label>Vino (Rioja, Cava, Ribera del Duero) ($15)</label>
+                <p>Una copa de vino tinto elegante.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://blogstudio.s3.theshoppad.net/staton/e34e3bedb8a714d734139ae3efa44348.png" alt="Botella de vodka premium helada">
+                <input type="checkbox" value="9.50"> <label>Vodka ($9.50)</label>
+                <p>Una botella de vodka premium helada.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Helles_im_Glas-Helles_%28pale_beer%29.jpg/250px-Helles_im_Glas-Helles_%28pale_beer%29.jpg" alt="Vaso de cerveza rubia con espuma">
+                <input type="checkbox" value="12"> <label>Cerveza (Cusqueña, Estrella Galicia, Mahou) ($12)</label>
+                <p>Un vaso de cerveza rubia con espuma.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://enrilemoine.com/wp-content/uploads/2023/08/tinto-de-verano-by-enrilemoine-1.jpg" alt="Vaso de tinto de verano con rodaja de limón y hielo">
+                <input type="checkbox" value="9.50"> <label>Tinto de verano ($9.50)</label>
+                <p>Un vaso de tinto de verano con rodaja de limón y hielo.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQar8NbraixlxMO3tJvFeGNwUIdKzbIwjR7lg&s" alt="Jarra de sangría tradicional con frutas picadas">
+                <input type="checkbox" value="3.50"> <label>Sangría ($3.50)</label>
+                <p>Una jarra de sangría tradicional con frutas picadas.</p>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://thecocktaillovers.com/wp-content/uploads/Screen-Shot-2015-10-04-at-18.08.02.png" alt="Copa con Licor 43 servido con hielo">
+                <input type="checkbox" value="5.80"> <label>Licor 43 ($5.80)</label>
+                <p>Una copa con Licor 43 servido con hielo.</p>
+            </div>
+        </section>
+
+        <section class="box">
+            <h2>🎉 Descuentos Aplicables:</h2>
+            <ul>
+                <li>Con traer a tu niño ✔ 5% de descuento en Postres</li>
+                <li>Seguirnos en redes sociales ✔ 5% de descuento en jugos</li>
+                <li>Ponernos 5 estrellas ✔ 5% de descuento en entrada</li>
+                <li>✔ 7% de descuento platos de fondo si son más de 5 personas</li>
+            </ul>
+        </section>
+
+        <section class="box">
+            <h2>Nota de Gastos de Cocina:</h2>
+            <label for="notaGastos">Anotaciones de costos adicionales:</label><br>
+            <textarea id="notaGastos" rows="4" cols="50" placeholder="Escribe incidencias o gastos internos aquí..."></textarea>
+        </section>
+
+        <section class="box">
+            <h2>Calculadora de Caja:</h2>
+            <div class="calc">
+                <input type="text" id="pantalla" readonly style="width: 80%; padding: 10px; font-size: 18px; margin-bottom: 10px;"><br>
+                <button type="button" onclick="agregar('7')">7</button>
+                <button type="button" onclick="agregar('8')">8</button>
+                <button type="button" onclick="agregar('9')">9</button>
+                <button type="button" onclick="agregar('/')">÷</button><br>
+
+                <button type="button" onclick="agregar('4')">4</button>
+                <button type="button" onclick="agregar('5')">5</button>
+                <button type="button" onclick="agregar('6')">6</button>
+                <button type="button" onclick="agregar('*')">×</button><br>
+
+                <button type="button" onclick="agregar('1')">1</button>
+                <button type="button" onclick="agregar('2')">2</button>
+                <button type="button" onclick="agregar('3')">3</button>
+                <button type="button" onclick="agregar('-')">-</button><br>
+
+                <button type="button" onclick="agregar('0')">0</button>
+                <button type="button" onclick="agregar('.')">.</button>
+                <button type="button" onclick="porcentaje()">%</button>
+                <button type="button" onclick="agregar('+')">+</button><br><br>
+
+                <button type="button" onclick="calcular()" style="background-color: #2ecc71; color: white;">=</button>
+                <button type="button" onclick="limpiarPantalla()" style="background-color: #e74c3c; color: white;">C</button>
+            </div>
+        </section>
+
+        <section class="box">
+            <h2>Opinión del Cliente:</h2>
+            <label for="estrellas">Estrellas:</label>
+            <select id="estrellas">
+                <option value="1">1 ⭐</option>
+                <option value="2">2 ⭐⭐</option>
+                <option value="3">3 ⭐⭐⭐</option>
+                <option value="4">4 ⭐⭐⭐⭐</option>
+                <option value="5">5 ⭐⭐⭐⭐⭐</option>
+            </select>
+            <br><br>
+            <label for="carita">Tu Estadía:</label>
+            <select id="carita">
+                <option>🙁 Mal</option>
+                <option>😐 Normal</option>
+                <option>🙃 Medio</option>
+                <option>😏 Interesante</option>
+                <option>😃 Excelente</option>
+            </select>
+        </section>
+
+        <section class="box">
+            <h2>Opiniones de su Estancia:</h2>
+            <label for="opinionCliente">Cuéntanos tu experiencia:</label><br>
+            <textarea id="opinionCliente" rows="4" cols="50" placeholder="Escribe tus comentarios aquí..."></textarea>
+        </section>
+
+        <div class="box" style="text-align: center;">
+            <button type="button" onclick="irGracias()" style="font-size: 20px; padding: 15px 30px;">Finalizar Pedido y Checkout</button>
         </div>
-        <script>
-            let pantalla = document.getElementById("pantalla");
+    </main>
 
-            function agregar(valor){
-                pantalla.value += valor;
-            }
+    <footer>
+        <p style="text-align: center; color: white; margin-top: 20px;">&copy; 2026 SergioSpark Admin ChefBar. Todos los derechos reservados.</p>
+    </footer>
 
-            function limpiar(){
-                pantalla.value = "";
-            }
-
-            function calcular(){
-                try{
-                    pantalla.value = eval(pantalla.value);
-                }catch{
-                    pantalla.value = "Error";
-                }
-            }
-
-            function porcentaje(){
-                pantalla.value = pantalla.value / 100;
-            }
-        </script>
-    </div>
-
-
-
-
-
-<div class="box">
-    <h2>Opinión:</h2>
-    Estrellas:
-    <select id="estrellas">
-        <option>1 ⭐</option>
-        <option>2 ⭐⭐</option>
-        <option>3 ⭐⭐⭐</option>
-        <option>4 ⭐⭐⭐⭐</option>
-        <option>5 ⭐⭐⭐⭐⭐</option>
-    </select><br><br>
-
-
-
-
-    Tu Estadia:
-    <select id="carita">
-        <option>🙁 Mal</option>
-        <option>😐 Normal</option>
-        <option>🙃 Medio</option>
-        <option>😏 Interesante</option>
-        <option>😃 Exelente</option>
-    </select>
-</div>
-
-
-
-
-<div class="box">
-    <h2>Opiniones de su Estancia:</h2>
-    <textarea id="nota" rows="4" cols="50" placeholder="Escribe algo..."></textarea>
-</div>
-
-
-
-
-<div class="box">
-    <button onclick="irGracias()">Finalizar</button>
     <script>
+        // Lógica de Firma Digital (Canvas)
+        let canvas = document.getElementById("firma");
+        let ctx = canvas.getContext("2d");
+        let dibujando = false;
+
+        canvas.addEventListener("mousedown", () => dibujando = true);
+        canvas.addEventListener("mouseup", () => { ctx.beginPath(); dibujando = false; });
+        canvas.addEventListener("mousemove", dibujar);
+
+        function dibujar(event) {
+            if (!dibujando) return;
+            let rect = canvas.getBoundingClientRect();
+            ctx.lineWidth = 3;
+            ctx.lineCap = "round";
+            ctx.strokeStyle = "#000000";
+            
+            ctx.lineTo(event.clientX - rect.left, event.clientY - rect.top);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(event.clientX - rect.left, event.clientY - rect.top);
+        }
+
+        function limpiarFirma() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Lógica de la Calculadora de Caja
+        let pantalla = document.getElementById("pantalla");
+
+        function agregar(valor){
+            pantalla.value += valor;
+        }
+
+        function limpiarPantalla(){
+            pantalla.value = "";
+        }
+
+        function calcular(){
+            try{
+                // Uso controlado de eval para la simulación de calculadora local
+                pantalla.value = eval(pantalla.value);
+            }catch{
+                pantalla.value = "Error";
+            }
+        }
+
+        function porcentaje(){
+            pantalla.value = parseFloat(pantalla.value) / 100;
+        }
+
+        // Redirección Final
         function irGracias(){
             window.location.href = "https://theartneon.com/cdn/shop/files/Thank_You_Come_Again_LED_Neon_Sign_c386cfd4-840a-4b38-a230-660b8595b4ca.jpg?v=1734283334";
         }
     </script>
-
-</div>
-
 </body>
 </html>
